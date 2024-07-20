@@ -1,0 +1,25 @@
+###SQL
+SELECT CAST("Internet Sales Cube"."currency" AS TEXT) AS "currency",
+  SUM("Internet Sales Cube"."salesamount1") AS "sum:salesamount1:ok"
+FROM "Sales Insights"."Internet Sales Cube" "Internet Sales Cube"
+GROUP BY 1
+###Analytic
+SELECT NON EMPTY CrossJoin(Hierarchize({DrilldownLevel({[Color Dimension].[Color].[All]},,,INCLUDE_CALC_MEMBERS)}), Hierarchize({DrilldownLevel({[Product Dimension].[Product Dimension].[All]},,,INCLUDE_CALC_MEMBERS)})) DIMENSION PROPERTIES PARENT_UNIQUE_NAME,HIERARCHY_UNIQUE_NAME ON COLUMNS  FROM [Internet Sales Cube] WHERE ([Measures].[salesamount1]) CELL PROPERTIES VALUE, FORMAT_STRING, LANGUAGE, BACK_COLOR, FORE_COLOR, FONT_FLAGS
+###Analytic
+SELECT
+  NON EMPTY Hierarchize(
+    { DrilldownLevel(
+      { [Color Dimension].[Color].[All] },,,
+      INCLUDE_CALC_MEMBERS
+    ) }
+  ) DIMENSION PROPERTIES PARENT_UNIQUE_NAME,
+  HIERARCHY_UNIQUE_NAME ON COLUMNS
+FROM
+  [Internet Sales Cube]
+WHERE
+  ([Measures].[salesamount1]) CELL PROPERTIES VALUE,
+  FORMAT_STRING,
+  LANGUAGE,
+  BACK_COLOR,
+  FORE_COLOR,
+  FONT_FLAGS
